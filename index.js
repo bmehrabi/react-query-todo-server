@@ -1,9 +1,18 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const port = 8000;
 
 // Middleware to parse JSON request bodies
 app.use(express.json());
+
+app.use(
+    cors({
+      origin: 'http://localhost:3000',
+      // Allow follow-up middleware to override this CORS for options
+      preflightContinue: true,
+    }),
+);
 
 // Static array to store todos
 let todos = [
