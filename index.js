@@ -49,6 +49,31 @@ app.post('/todos', async (req, res) => {
   res.status(201).json(newTodo);
 });
 
+app.put('/todos/:id', async (req, res) => {
+    const { id } = req.params;
+    const { title, hasDone, isImportant } = req.body;
+
+    const todoId = parseInt(id, 10);
+    const index = todos.findIndex((t) => t.id === todoId);
+
+    if (index === -1) {
+        return res.status(404).json({ error: 'Todo not found' });
+    }
+
+    if (typeof title !== 'string' || typeof hasDone !== 'boolean' || typeof isImportant !== 'boolean') {
+        return res.status(400).json({ error: 'Invalid todo format' });
+    }
+
+    todos[index] = {
+        ...todos[index],
+        title,
+        hasDone,
+        isImportant,
+    };
+
+    res.json(todos[index]);
+});
+
 // Start the server
 app.listen(port, () => {
   console.log(`Todo app listening at http://localhost:${port}`);
