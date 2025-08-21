@@ -25,8 +25,13 @@ app.get('/todos', (req, res) => {
   res.json(todos);
 });
 
+const delay = (ms) => {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 // POST endpoint to add a new todo
-app.post('/todos', (req, res) => {
+app.post('/todos', async (req, res) => {
+  await delay(2000);
   const { title, hasDone, isImportant } = req.body;
 
   if (typeof title !== 'string' || typeof hasDone !== 'boolean' || typeof isImportant !== 'boolean') {
