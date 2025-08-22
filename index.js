@@ -74,6 +74,21 @@ app.put('/todos/:id', async (req, res) => {
     res.json(todos[index]);
 });
 
+app.delete('/todos/:id', async (req, res) => {
+    const { id } = req.params;
+    const todoId = parseInt(id, 10);
+    const index = todos.findIndex((t) => t.id === todoId);
+
+    if (index === -1) {
+        return res.status(404).json({ error: 'Todo not found' });
+    }
+
+    const deletedTodo = todos.splice(index, 1)[0];
+
+    res.json({ message: 'Todo deleted', todo: deletedTodo });
+});
+
+
 // Start the server
 app.listen(port, () => {
   console.log(`Todo app listening at http://localhost:${port}`);
